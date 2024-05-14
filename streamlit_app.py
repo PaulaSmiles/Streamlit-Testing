@@ -6,12 +6,9 @@ st.write("""
 Hello *world!*
 """)
  
-import streamlit as st
-import pandas as pd
-
 # Load the CSV data into a DataFrame
 csv_file_path = "percentage_change.csv"
-df = pd.read_csv(csv_file_path, header=None, names=["Category", "Code", "Percentage Change"])
+df = pd.read_csv(csv_file_path)
 
 # Group the data by Category
 grouped = df.groupby("Category")
@@ -21,6 +18,6 @@ for category, group in grouped:
     st.subheader(f"Category: {category}")
     
     # Create a line chart for the current category
-    chart_data = group.pivot_table(index=group.index, columns="Code", values="Percentage Change")
-    st.line_chart(chart_data)
+    for code, data in group.groupby("Code"):
+        st.line_chart(data.set_index("Code")["Percentage Change"])
 
