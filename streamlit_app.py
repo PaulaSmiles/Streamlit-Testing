@@ -32,3 +32,4 @@ if uploaded_file is not None:
 
     # Show the plot
     st.plotly_chart(fig)
+
